@@ -7,8 +7,9 @@ class AppColors {
   static const Color primaryBeig = Color(0xffEADEC6);
   static const Color themeColor = Color(0xffF2ECDE);
   static const Color onBoardingContainerColor = Color(0xffF2ECDE);
-
+  static const Color textFieldBackground = Color(0xffF5F3F0);
 }
+
 
 class AppTheme {
   static  TextStyle bodyText = TextStyle(fontSize: 20.sp);

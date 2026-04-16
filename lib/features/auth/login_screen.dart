@@ -1,0 +1,152 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sakina/core/theme/app_colors.dart';
+import 'package:sakina/core/widgets/custom_app_button.dart';
+import 'package:sakina/core/widgets/custom_text_form_field.dart';
+import 'package:sakina/core/widgets/custom_text_rich.dart';
+import 'package:sakina/features/auth/widgets/social_auth_buttons.dart';
+import 'package:sakina/features/auth/sign_up_screen.dart';
+import 'package:sakina/generated/locale_keys.g.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.themeColor,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 40.h),
+                Text(
+                  LocaleKeys.header.tr(),
+                  style: TextStyle(fontSize: 12.sp, letterSpacing: 1.2),
+                ),
+                SizedBox(height: 12.h),
+                Text(
+                  LocaleKeys.title.tr(),
+                  style: TextStyle(
+                    fontSize: 32.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                Text(
+                  LocaleKeys.subtitle.tr(),
+                  style: const TextStyle(color: Colors.grey),
+                ),
+                SizedBox(height: 40.h),
+
+                //  email
+                CustomTextFormField(
+                  controller: emailController,
+                  hintText: LocaleKeys.email_placeholder.tr(),
+                  labelText: LocaleKeys.email_label.tr(),
+                  keyboardType: TextInputType.emailAddress,
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 14.sp),
+                ),
+
+                SizedBox(height: 22.h),
+
+                //  password
+                CustomTextFormField(
+                  controller: passwordController,
+                  hintText: ".......",
+                  labelText: LocaleKeys.password_label.tr(),
+                  secured: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  hintStyle: TextStyle(color: Colors.grey, fontSize: 20.sp),
+                  validators: (value) {
+                    if (value == null || value.isEmpty) {
+                      return LocaleKeys.please_enter_password.tr();
+                    }
+                    return null;
+                  },
+                ),
+
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      LocaleKeys.forgot_password.tr(),
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 20.h),
+
+                // login button
+                CustomAppButton(
+                  text: LocaleKeys.login_button.tr(),
+                  onPressed: () {
+                    //login action
+                  },
+                ),
+
+                SizedBox(height: 40.h),
+
+                SocialAuthButtons(
+                  googleLabel: LocaleKeys.google_auth.tr(),
+                  appleLabel: LocaleKeys.apple_auth.tr(),
+                  onGoogleTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Google Login Tapped!")),
+                    );
+                  },
+                  onAppleTap: () => {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Apple Login Tapped!")),
+                    )
+                  },
+                ),
+
+                SizedBox(height: 40.h),
+
+                // footer
+                Center(
+                  child: Customtextrich(
+                    tapped: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpScreen(),
+                        ),
+                      );
+                    },
+                    textTitle: LocaleKeys.footer_text.tr(),
+                    textButton: LocaleKeys.apply_for_residency.tr(),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

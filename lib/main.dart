@@ -7,7 +7,7 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   runApp( EasyLocalization(
        supportedLocales: [Locale('en'), Locale('ar')],
-      path: 'assets/dalia_assets/translations',
+      path: 'assets/translations',
       fallbackLocale: Locale('en'),
         startLocale: Locale('en'), 
 

@@ -32,5 +32,24 @@ abstract class  LocaleKeys {
   static const apple_auth = 'apple_auth';
   static const footer_text = 'footer_text';
   static const apply_for_residency = 'apply_for_residency';
+  static const please_enter_password = 'please_enter_password';
+  static const signup_header = 'signup_header';
+  static const signup_title = 'signup_title';
+  static const signup_subtitle = 'signup_subtitle';
+  static const signup_signin_link = 'signup_signin_link';
+  static const signup_full_name_label = 'signup_full_name_label';
+  static const signup_full_name_placeholder = 'signup_full_name_placeholder';
+  static const signup_university_label = 'signup_university_label';
+  static const signup_university_placeholder = 'signup_university_placeholder';
+  static const signup_university_email_label = 'signup_university_email_label';
+  static const signup_university_email_placeholder = 'signup_university_email_placeholder';
+  static const signup_password_label = 'signup_password_label';
+  static const signup_gender_label = 'signup_gender_label';
+  static const signup_terms_text = 'signup_terms_text';
+  static const signup_button = 'signup_button';
+  static const signup_divider_text = 'signup_divider_text';
+  static const signup_google_auth = 'signup_google_auth';
+  static const signup_eduid_auth = 'signup_eduid_auth';
+  static const signup_copyright = 'signup_copyright';
 
 }
