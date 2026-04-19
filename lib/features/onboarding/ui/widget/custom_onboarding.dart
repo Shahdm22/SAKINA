@@ -51,8 +51,8 @@ class CustomOnboarding extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
             width: 1.sw,
             height: 480.h,
-            decoration: const ShapeDecoration(
-              color: AppColors.onBoardingContainerColor,
+            decoration: ShapeDecoration(
+              color: AppColors.primaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50),
