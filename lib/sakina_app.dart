@@ -5,9 +5,6 @@ import 'package:sakina/core/widgets/bottom_bar.dart';
 // import 'package:sakina/features/ai_match/screens/loading_screen.dart';
 // import 'package:sakina/features/role/ui/role_screen.dart';
 
-
-
-// import 'package:sakina/features/onboarding/main_onboarding.dart';
 class SakinaApp extends StatelessWidget {
   const SakinaApp({super.key});
 
@@ -22,7 +19,7 @@ class SakinaApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        home: ButtomNavBarScreen(),
+        home: SignUpScreen(),
       ),
     );
   }
