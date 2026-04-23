@@ -10,7 +10,8 @@ import 'package:sakina/features/auth/sign_up_screen.dart';
 import 'package:sakina/generated/locale_keys.g.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final String role;
+ const LoginScreen({super.key, required this.role});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -100,12 +101,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 20.h),
 
                 // login button
-                CustomAppButton(
-                  text: LocaleKeys.login_button.tr(),
-                  onPressed: () {
-                    //login action
-                  },
-                ),
+                // Wrap your Scaffold with BlocProvider in login_screen.dart
+  BlocProvider(
+  create: (context) => AuthBloc(AuthRepository()),
+  child: BlocListener<AuthBloc, AuthState>(
+    listener: (context, state) {
+      if (state is AuthLoading) {
+        showDialog(context: context, builder: (_) => Center(child: CircularProgressIndicator()));
+      } else if (state is AuthSuccess) {
+        Navigator.pop(context); // close loading
+        Navigator.pushReplacementNamed(context, '/home');
+      } else if (state is AuthFailure) {
+        Navigator.pop(context); // close loading
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+      }
+    },
+    child: // your existing Scaffold here
+  )
+)
+
+// Then in the login button onPressed:
+onPressed: () {
+  context.read<AuthBloc>().add(LoginRequested(
+    email: emailController.text,
+    password: passwordController.text,
+    role: widget.role,
+  ));
+},
 
                 SizedBox(height: 40.h),
 

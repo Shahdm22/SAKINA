@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../auth/login_screen.dart';
 
 class RoleCustomButton extends StatelessWidget {
   final String buttonText;
   final Color buttonColor;
+  final String role;
+
   const RoleCustomButton({
     super.key,
     required this.buttonText,
     required this.buttonColor,
+    required this.role,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginScreen(role: role),
+          ),
+        );
       },
       child: Container(
         width: 292.w,

@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  supabase_flutter: ^2.8.4  
   cupertino_icons: ^1.0.8
   flutter_screenutil: ^5.9.3
   easy_localization: ^3.0.8
@@ -107,4 +107,4 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
-supabase_flutter: ^2.8.4
+

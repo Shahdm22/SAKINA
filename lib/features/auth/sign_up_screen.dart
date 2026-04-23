@@ -138,14 +138,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(height: 25.h),
 
                 // login button
-                CustomAppButton(
-                  text: LocaleKeys.signup_button.tr(),
-                  onPressed: () {
-                    if (isAgreed) {
-                      // Login Logic
-                    }
-                  },
-                ),
+               // Wrap your Scaffold with BlocProvider in login_screen.dart
+BlocProvider(
+  create: (context) => AuthBloc(AuthRepository()),
+  child: BlocListener<AuthBloc, AuthState>(
+    listener: (context, state) {
+      if (state is AuthLoading) {
+        showDialog(context: context, builder: (_) => Center(child: CircularProgressIndicator()));
+      } else if (state is AuthSuccess) {
+        Navigator.pop(context); // close loading
+        Navigator.pushReplacementNamed(context, '/home');
+      } else if (state is AuthFailure) {
+        Navigator.pop(context); // close loading
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.message)));
+      }
+    },
+    child: // your existing Scaffold here
+  )
+)
+
+// Then in the login button onPressed:
+onPressed: () {
+  context.read<AuthBloc>().add(LoginRequested(
+    email: emailController.text,
+    password: passwordController.text,
+  ));
+},
 
                 SizedBox(height: 30.h),
 
