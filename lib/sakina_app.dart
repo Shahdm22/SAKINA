@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sakina/core/widgets/bottom_bar.dart';
 import 'package:sakina/landlord/dashboard_screen.dart';
+import 'package:sakina/pages/messages.dart';
 // import 'package:sakina/features/ai_match/screens/loading_screen.dart';
 // import 'package:sakina/features/role/ui/role_screen.dart';
 
