@@ -13,9 +13,12 @@ import 'package:sakina/features/auth/repository/auth_repository.dart';
 import 'package:sakina/features/auth/widgets/social_auth_buttons.dart';
 import 'package:sakina/features/auth/login_screen.dart';
 import 'package:sakina/generated/locale_keys.g.dart';
+import 'package:sakina/pages/home.dart';
+import 'package:sakina/landlord/dashboard_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  final String role;
+  const SignUpScreen({super.key, required this.role});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -26,7 +29,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController universityController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nationalIdController = TextEditingController();
 
+  bool get isTenant => widget.role == 'tenant';
+  bool get isLandlord => widget.role == 'landlord';
   bool isAgreed = false;
 
   @override
@@ -35,6 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     universityController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    nationalIdController.dispose();
     super.dispose();
   }
 
@@ -51,8 +58,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
               builder: (_) => const Center(child: CircularProgressIndicator()),
             );
           } else if (state is AuthSuccess) {
-            Navigator.pop(context); // close loading dialog
-            Navigator.pushReplacementNamed(context, '/home');
+           Navigator.pushReplacement(
+            context,
+             MaterialPageRoute(
+              builder: (context) => widget.role == 'landlord'
+               ? const DashboardScreen()  // landlord goes here
+                : const HomePage(),       // tenant goes here
+  ),
+);
           } else if (state is AuthFailure) {
             Navigator.pop(context); // close loading dialog
             ScaffoldMessenger.of(context).showSnackBar(
@@ -93,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       tapped: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const LoginScreen(role: 'student'),
+                         builder: (context) => LoginScreen(role: widget.role),
                         ),
                       ),
                       textTitle: LocaleKeys.signup_subtitle.tr(),
@@ -111,24 +124,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     SizedBox(height: 20.h),
 
-                    // university
-                    CustomTextFormField(
-                      controller: universityController,
-                      hintText: LocaleKeys.signup_university_placeholder.tr(),
-                      labelText: LocaleKeys.signup_university_label.tr(),
-                      hintStyle: TextStyle(color: Colors.grey, fontSize: 14.sp),
-                    ),
-                    SizedBox(height: 20.h),
+                    if (isTenant) ...[
+                      CustomTextFormField(
+                        controller: universityController,
+                        hintText: LocaleKeys.signup_university_placeholder.tr(),
+                        labelText: LocaleKeys.signup_university_label.tr(),
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14.sp),
+                      ),
+                      SizedBox(height: 20.h),
+                      CustomTextFormField(
+                        controller: emailController,
+                        hintText: LocaleKeys.signup_university_email_placeholder.tr(),
+                        labelText: LocaleKeys.signup_university_email_label.tr(),
+                        keyboardType: TextInputType.emailAddress,
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14.sp),
+                      ),
+                      SizedBox(height: 20.h),
+                    ],
 
-                    // email
-                    CustomTextFormField(
-                      controller: emailController,
-                      hintText: LocaleKeys.signup_university_email_placeholder.tr(),
-                      labelText: LocaleKeys.signup_university_email_label.tr(),
-                      keyboardType: TextInputType.emailAddress,
-                      hintStyle: TextStyle(color: Colors.grey, fontSize: 14.sp),
-                    ),
-                    SizedBox(height: 20.h),
+                    if (isLandlord) ...[
+                      CustomTextFormField(
+                        controller: emailController,
+                        hintText: LocaleKeys.email_placeholder.tr(),
+                        labelText: LocaleKeys.email_label.tr(),
+                        keyboardType: TextInputType.emailAddress,
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14.sp),
+                      ),
+                      SizedBox(height: 20.h),
+                      CustomTextFormField(
+                        controller: nationalIdController,
+                        hintText: 'enter you national id',
+                        labelText: 'NATIONAL ID',
+                        keyboardType: TextInputType.number,
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14.sp),
+                        validators: (value) {
+                          if (value == null || value.isEmpty) return 'enter your national id';
+                          if (value.length != 14) return 'national id should be 14 numbers';
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20.h),
+                    ],
 
                     // password
                     CustomTextFormField(
