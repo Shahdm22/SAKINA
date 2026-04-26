@@ -1,9 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AuthRepository {
   final supabase = Supabase.instance.client;
+
+  String get _redirectUrl {
+    if (kIsWeb) {
+      final port = Uri.base.port;
+      return 'http://localhost:$port';
+    }
+    return 'io.supabase.sakina://login-callback/';
+  }
 
   Future<void> login({
     required String email,
@@ -35,26 +42,22 @@ class AuthRepository {
   }
 
   Future<void> signInWithGoogle() async {
-  await supabase.auth.signInWithOAuth(
-    OAuthProvider.google,
-    redirectTo: kIsWeb
-        ? 'http://localhost:59013'
-        : 'io.supabase.sakina://login-callback/',
-    authScreenLaunchMode: kIsWeb
-        ? LaunchMode.platformDefault
-        : LaunchMode.externalApplication,
-  );
-}
+    await supabase.auth.signInWithOAuth(
+      OAuthProvider.google,
+      redirectTo: _redirectUrl,
+      authScreenLaunchMode: kIsWeb
+          ? LaunchMode.platformDefault
+          : LaunchMode.externalApplication,
+    );
+  }
 
-Future<void> signInWithMicrosoft() async {
-  await supabase.auth.signInWithOAuth(
-    OAuthProvider.azure,
-    redirectTo: kIsWeb
-        ? 'http://localhost:59013'
-        : 'io.supabase.sakina://login-callback/',
-    authScreenLaunchMode: kIsWeb
-        ? LaunchMode.platformDefault
-        : LaunchMode.externalApplication,
-  );
-}
+  Future<void> signInWithMicrosoft() async {
+    await supabase.auth.signInWithOAuth(
+      OAuthProvider.azure,
+      redirectTo: _redirectUrl,
+      authScreenLaunchMode: kIsWeb
+          ? LaunchMode.platformDefault
+          : LaunchMode.externalApplication,
+    );
+  }
 }
