@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:sakina/sakina_app.dart';
@@ -10,9 +11,10 @@ void main() async {
   await EasyLocalization.ensureInitialized();
 
   await Supabase.initialize(
-    url: 'https://gmrfwpntjvcrsbqpvzur.supabase.co',
-    anonKey: 'sb_publishable__vpgk7qNq798y_h3_Zs9sQ_zCqC-65D',
+  url: 'https://gmrfwpntjvcrsbqpvzur.supabase.co',
+  anonKey: 'sb_publishable__vpgk7qNq798y_h3_Zs9sQ_zCqC-65D',
   );
+
 
   Supabase.instance.client.auth.onAuthStateChange.listen((data) {
     final event = data.event;

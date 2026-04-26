@@ -7,6 +7,7 @@ import 'package:sakina/features/auth/repository/auth_repository.dart';
 import 'package:sakina/features/onboarding/main_onboarding.dart';
 import 'package:sakina/pages/home.dart';
 import 'package:sakina/bill_popup/utilitybill.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'main.dart';
 
 class SakinaApp extends StatelessWidget {
@@ -14,6 +15,8 @@ class SakinaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final session = Supabase.instance.client.auth.currentSession;
+
     return ScreenUtilInit(
       designSize: const Size(390, 884),
       minTextAdapt: true,
@@ -26,8 +29,9 @@ class SakinaApp extends StatelessWidget {
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          home: UtilityBillScreen(),
+          home: session != null ? const HomePage() : MainOnboarding(),
           routes: {
+            '/home': (context) => const HomePage(),
             '/utility-bill': (context) => const UtilityBillScreen(),
           },
         ),
