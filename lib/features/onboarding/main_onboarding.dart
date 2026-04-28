@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sakina/features/onboarding/ui/widget/custom_onboarding.dart';
@@ -12,7 +11,27 @@ class MainOnboarding extends StatefulWidget {
 }
 
 class _MainOnboardingState extends State<MainOnboarding> {
-  final CarouselSliderController controller = CarouselSliderController();
+  final PageController _pageController = PageController();
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _nextPage() {
+    _pageController.nextPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _previousPage() {
+    _pageController.previousPage(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +44,7 @@ class _MainOnboardingState extends State<MainOnboarding> {
         backButton: false,
         nextButton: true,
         getStartButton: false,
-        nextTapped: () => controller.nextPage(),
+        nextTapped: _nextPage,
       ),
       CustomOnboarding(
         url: "assets/pictures/onboarding2.png",
@@ -35,8 +54,8 @@ class _MainOnboardingState extends State<MainOnboarding> {
         backButton: true,
         nextButton: true,
         getStartButton: false,
-        nextTapped: () => controller.nextPage(),
-        backTapped: () => controller.previousPage(),
+        nextTapped: _nextPage,
+        backTapped: _previousPage,
       ),
       CustomOnboarding(
         url: "assets/pictures/onboarding3.png",
@@ -46,34 +65,27 @@ class _MainOnboardingState extends State<MainOnboarding> {
         backButton: true,
         nextButton: true,
         getStartButton: false,
-        nextTapped: () => controller.nextPage(),
-        backTapped: () => controller.previousPage(),
+        nextTapped: _nextPage,
+        backTapped: _previousPage,
       ),
       CustomOnboarding(
         url: "assets/pictures/onboarding4.png",
         title: LocaleKeys.get_started.tr(),
         description: LocaleKeys.find_place.tr(),
-        stepPath: "assets/icons/step3.svg", 
+        stepPath: "assets/icons/step3.svg",
         backButton: true,
         nextButton: false,
         getStartButton: true,
-        backTapped: () => controller.previousPage(),
+        backTapped: _previousPage,
       ),
     ];
 
     return Scaffold(
-      body: CarouselSlider(
-        carouselController: controller,
-        items: onboardingList,
-        options: CarouselOptions(
-          padEnds: false,
-          height: double.infinity,
-          viewportFraction: 1,
-          pageSnapping: true,
-          enableInfiniteScroll: false,
-          scrollPhysics: const NeverScrollableScrollPhysics(), 
-        ),
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: onboardingList,
       ),
     );
   }
-}
+}

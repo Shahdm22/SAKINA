@@ -85,7 +85,7 @@ static const Map<String,dynamic> _en = {
   "tenant": "Tenant",
   "landlord": "Landlord",
   "header": "WELCOME BACK",
-  "title": "Continue your \njourney.",
+  "title": "Continue your journey",
   "subtitle": "Enter your credentials to access your curated space.",
   "email_label": "EMAIL ADDRESS",
   "email_placeholder": "name@university.edu.eg",

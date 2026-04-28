@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sakina/core/theme/app_colors.dart';
+import 'package:sakina/features/local_services/screens/discover_services_screen.dart';
 
 // ---------------------------------------------------------------------------
 // Data model
@@ -66,7 +67,14 @@ class ServicesNearYouContainer extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DiscoverServicesScreen(),
+                    ),
+                  );
+                },
                 child: const Text(
                   'SEE ALL',
                   style: TextStyle(
@@ -138,6 +146,14 @@ class _ServiceCardState extends State<_ServiceCard>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const DiscoverServicesScreen(),
+          ),
+        );
+      },
       onTapDown: (_) => _ctrl.forward(),
       onTapUp: (_) => _ctrl.reverse(),
       onTapCancel: () => _ctrl.reverse(),

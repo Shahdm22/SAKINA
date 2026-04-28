@@ -8,14 +8,21 @@ import 'package:sakina/pages/messages.dart';
 import 'package:sakina/features/home/bloc/home_bloc.dart';
 
 class ButtomNavBarScreen extends StatefulWidget {
-  const ButtomNavBarScreen({super.key});
+  final int initialIndex;
+  const ButtomNavBarScreen({super.key, this.initialIndex = 0});
 
   @override
   State<ButtomNavBarScreen> createState() => _ButtomNavBarScreenState();
 }
 
 class _ButtomNavBarScreenState extends State<ButtomNavBarScreen> {
-  int activeindex = 0;
+  late int activeindex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    activeindex = widget.initialIndex;
+  }
 
   List<Widget> screens = [
     BlocProvider(
@@ -25,74 +32,86 @@ class _ButtomNavBarScreenState extends State<ButtomNavBarScreen> {
     const ExplorePage(),
     const FavouritePage(),
     const MessagesPage(),
-    
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(top: 16),
-        decoration: BoxDecoration(
-          color: AppColors.bottomNavigationBarColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          ),
-        ),
-        clipBehavior: Clip.hardEdge,
-        child: BottomNavigationBar(
-          backgroundColor: AppColors.bottomNavigationBarColor,
-          elevation: 0,
-          unselectedItemColor: Colors.white,
-          currentIndex: activeindex,
-          onTap: (index) {
-            setState(() {
-              activeindex = index;
-            });
-          },
-          selectedItemColor: AppColors.themeColor,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: activeindex == 0 ? AppColors.themeColor : Colors.white,
-              ),
-              label: "Home",
-              
-              
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.explore,
-                color: activeindex == 1 ? AppColors.themeColor : Colors.white,
-              ),
-              label: "Explore",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.favorite,
-                color: activeindex == 2 ? AppColors.themeColor : Colors.white,
-              ),
-              label: "Favourites",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.message,
-                color: activeindex == 3 ? AppColors.themeColor : Colors.white,
-              ),
-              label: "Messages",
-            )
-            
-            
-          ],
-        ),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: activeindex,
+        onTap: (index) {
+          setState(() {
+            activeindex = index;
+          });
+        },
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: SafeArea(child: screens[activeindex]),
+      ),
+    );
+  }
+}
+
+class CustomBottomNavBar extends StatelessWidget {
+  final int currentIndex;
+  final Function(int) onTap;
+
+  const CustomBottomNavBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 16),
+      decoration: const BoxDecoration(
+        color: AppColors.bottomNavigationBarColor,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(40),
+          topRight: Radius.circular(40),
+        ),
+      ),
+      clipBehavior: Clip.hardEdge,
+      child: BottomNavigationBar(
+        backgroundColor: AppColors.bottomNavigationBarColor,
+        elevation: 0,
+        unselectedItemColor: Colors.grey,
+        currentIndex: currentIndex,
+        onTap: onTap,
+        selectedItemColor: AppColors.themeColor,
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home,
+                color: currentIndex == 0 ? AppColors.themeColor : Colors.grey),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.explore,
+              color: currentIndex == 1 ? AppColors.themeColor : Colors.grey,
+            ),
+            label: "Explore",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.favorite,
+              color: currentIndex == 2 ? AppColors.themeColor : Colors.grey,
+            ),
+            label: "Favourites",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.message,
+              color: currentIndex == 3 ? AppColors.themeColor : Colors.grey,
+            ),
+            label: "Messages",
+          ),
+        ],
       ),
     );
   }
