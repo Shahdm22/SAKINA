@@ -38,6 +38,8 @@ class _ButtomNavBarScreenState extends State<ButtomNavBarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
+      // FIX: extendBody بيخلي الـ Screen تفرش ورا الـ NavBar عشان الزوايا المنحنية تظهر صح
+      extendBody: true, 
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: activeindex,
         onTap: (index) {
@@ -46,9 +48,10 @@ class _ButtomNavBarScreenState extends State<ButtomNavBarScreen> {
           });
         },
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: SafeArea(child: screens[activeindex]),
+      body: SafeArea(
+        // bottom: false عشان الـ SafeArea ما ترفعش الصفحة فوق الـ NavBar
+        bottom: false, 
+        child: screens[activeindex],
       ),
     );
   }
@@ -67,7 +70,6 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 16),
       decoration: const BoxDecoration(
         color: AppColors.bottomNavigationBarColor,
         borderRadius: BorderRadius.only(
@@ -75,43 +77,47 @@ class CustomBottomNavBar extends StatelessWidget {
           topRight: Radius.circular(40),
         ),
       ),
-      clipBehavior: Clip.hardEdge,
-      child: BottomNavigationBar(
-        backgroundColor: AppColors.bottomNavigationBarColor,
-        elevation: 0,
-        unselectedItemColor: Colors.grey,
-        currentIndex: currentIndex,
-        onTap: onTap,
-        selectedItemColor: AppColors.themeColor,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home,
-                color: currentIndex == 0 ? AppColors.themeColor : Colors.grey),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.explore,
-              color: currentIndex == 1 ? AppColors.themeColor : Colors.grey,
+      child: SafeArea(
+        child: BottomNavigationBar(
+          // FIX: جعلنا الخلفية شفافة عشان تعتمد على لون الـ Container والـ BorderRadius
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          currentIndex: currentIndex,
+          onTap: onTap,
+          selectedItemColor: AppColors.themeColor,
+          unselectedItemColor: Colors.grey,
+          type: BottomNavigationBarType.fixed,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home,
+                  color: currentIndex == 0 ? AppColors.themeColor : Colors.grey),
+              label: "Home",
             ),
-            label: "Explore",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite,
-              color: currentIndex == 2 ? AppColors.themeColor : Colors.grey,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.explore,
+                color: currentIndex == 1 ? AppColors.themeColor : Colors.grey,
+              ),
+              label: "Explore",
             ),
-            label: "Favourites",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.message,
-              color: currentIndex == 3 ? AppColors.themeColor : Colors.grey,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.favorite,
+                color: currentIndex == 2 ? AppColors.themeColor : Colors.grey,
+              ),
+              label: "Favourites",
             ),
-            label: "Messages",
-          ),
-        ],
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.message,
+                color: currentIndex == 3 ? AppColors.themeColor : Colors.grey,
+              ),
+              label: "Messages",
+            ),
+          ],
+        ),
       ),
     );
   }

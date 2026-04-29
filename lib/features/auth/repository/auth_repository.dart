@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
+
 
 class AuthRepository {
   final supabase = Supabase.instance.client;
