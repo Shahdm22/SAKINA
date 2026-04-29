@@ -64,60 +64,58 @@ class _PropertyListingScreenState extends State<PropertyListingScreen> {
             );
           }
           if (state is ListingsLoaded) {
-            return Container(
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildTabBar(context),
-                      const SizedBox(height: 20),
-                      state.listings.isEmpty
-                          ? const Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Text('No listings available'),
-                            )
-                          : SizedBox(
-                              height: 280,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                padding: const EdgeInsets.only(
-                                  left: 20,
-                                  right: 8,
-                                ),
-                                itemCount: state.listings.length,
-                                itemBuilder: (context, index) {
-                                  return _buildFeaturedCard(
-                                    state.listings[index],
-                                  );
-                                },
+            return SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildTabBar(context),
+                    const SizedBox(height: 20),
+                    state.listings.isEmpty
+                        ? const Padding(
+                            padding: EdgeInsets.all(20),
+                            child: Text('No listings available'),
+                          )
+                        : SizedBox(
+                            height: 280,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              padding: const EdgeInsets.only(
+                                left: 20,
+                                right: 8,
                               ),
+                              itemCount: state.listings.length,
+                              itemBuilder: (context, index) {
+                                return _buildFeaturedCard(
+                                  state.listings[index],
+                                );
+                              },
                             ),
-                      const SizedBox(height: 28),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Text(
-                          'Property Nearby',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.grey.shade800,
                           ),
+                    const SizedBox(height: 28),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        'Property Nearby',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey.shade800,
                         ),
                       ),
-                      const SizedBox(height: 14),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        itemCount: state.listings.length,
-                        itemBuilder: (context, index) {
-                          return _buildNearbyCard(state.listings[index]);
-                        },
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 14),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      itemCount: state.listings.length,
+                      itemBuilder: (context, index) {
+                        return _buildNearbyCard(state.listings[index]);
+                      },
+                    ),
+                  ],
                 ),
               ),
             );
