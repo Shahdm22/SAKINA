@@ -1,9 +1,11 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sakina/core/theme/app_colors.dart';
+import 'package:sakina/features/listings/listings_details/widgets/community_voice_widget.dart';
 import 'package:sakina/features/listings/listings_details/widgets/facilities_card.dart';
 import 'package:sakina/features/listings/listings_details/widgets/hero_section.dart';
 import 'package:sakina/features/listings/listings_details/widgets/listing_app_bar.dart';
+import 'package:sakina/features/listings/listings_details/widgets/listing_bottom_bar.dart';
 import 'package:sakina/features/listings/listings_details/widgets/location_listing.dart';
 
 void main() {
@@ -95,7 +97,9 @@ class RoomDetailScreen extends StatelessWidget {
 
             FacilitiesCard(),
             LocationMapWidget(),
-            EssentialComfortsCard()
+            EssentialComfortsCard(),
+            CommunityVoiceWidget(),
+            ListingBottomBar(),
           ],
         ),
       ),

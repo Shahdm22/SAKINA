@@ -4,6 +4,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:sakina/core/theme/app_colors.dart';
 
 class HeroSection extends StatefulWidget {
   @override
@@ -179,18 +180,20 @@ class HeroSectionState extends State<HeroSection> {
                     left: 0,
                     right: 0,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      padding: const EdgeInsets.symmetric(vertical: 2),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.primaryBeig,
+                        borderRadius: BorderRadius.circular(50),
                       ),
                       child: const Center(
                         child: Text(
                           'view profile',
                           style: TextStyle(
-                            fontSize: 8,
-                            color: Color(0xFF1A1A1A),
-                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontFamily: 'Manrope',
+                            fontWeight: FontWeight.w400,
+                            height: 1.67,
                           ),
                         ),
                       ),
