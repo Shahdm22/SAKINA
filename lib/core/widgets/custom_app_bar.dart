@@ -86,31 +86,12 @@ class _MyappbarState extends State<Myappbar> {
                         color: Colors.black, size: 20),
                     onPressed: () => Navigator.pop(context),
                   ),
-<<<<<<< HEAD
-                if (showProfile) ...[
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const UserProfileScreen(),
-                        ),
-                      );
-                    },
-                    child: CircleAvatar(
-                      radius: 24.r,
-                      backgroundColor: AppColors.primaryBeig,
-                      backgroundImage: const NetworkImage(
-                        'https://thumbs.dreamstime.com/b/avatar-profile-icon-flat-style-female-user-vector-illustration-isolated-background-women-sign-business-concept-321407993.jpg',
-                      ),
-=======
                 if (widget.showProfile) ...[
                   CircleAvatar(
                     radius: 24.r,
                     backgroundColor: AppColors.primaryBeig,
                     backgroundImage: const NetworkImage(
                       'https://thumbs.dreamstime.com/b/avatar-profile-icon-flat-style-female-user-vector-illustration-isolated-background-women-sign-business-concept-321407993.jpg',
->>>>>>> afc31a425dcf0651ce1a1e6dc7c91b1c9cf224d9
                     ),
                   ),
                   SizedBox(width: 10.w),
