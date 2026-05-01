@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sakina/core/theme/app_colors.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:sakina/features/profiles/ui/user_profile_screen.dart';
 
 class Myappbar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -50,11 +51,21 @@ class Myappbar extends StatelessWidget implements PreferredSizeWidget {
                     onPressed: () => Navigator.pop(context),
                   ),
                 if (showProfile) ...[
-                  CircleAvatar(
-                    radius: 24.r,
-                    backgroundColor: AppColors.primaryBeig,
-                    backgroundImage: const NetworkImage(
-                      'https://thumbs.dreamstime.com/b/avatar-profile-icon-flat-style-female-user-vector-illustration-isolated-background-women-sign-business-concept-321407993.jpg',
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const UserProfileScreen(),
+                        ),
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: 24.r,
+                      backgroundColor: AppColors.primaryBeig,
+                      backgroundImage: const NetworkImage(
+                        'https://thumbs.dreamstime.com/b/avatar-profile-icon-flat-style-female-user-vector-illustration-isolated-background-women-sign-business-concept-321407993.jpg',
+                      ),
                     ),
                   ),
                   SizedBox(width: 10.w),
