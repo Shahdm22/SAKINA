@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sakina/core/theme/app_colors.dart';
+import 'package:sakina/features/notifications/notifications_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class Myappbar extends StatelessWidget implements PreferredSizeWidget {
+class Myappbar extends StatefulWidget implements PreferredSizeWidget {
   final String? title;
   final bool showBackButton;
   final bool showProfile;
@@ -18,13 +19,47 @@ class Myappbar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
+  State<Myappbar> createState() => _MyappbarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(80.h);
+}
+
+class _MyappbarState extends State<Myappbar> {
+  int _unreadCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUnreadCount();
+  }
+
+  Future<void> _fetchUnreadCount() async {
+    try {
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId == null) return;
+
+      final response = await Supabase.instance.client
+          .from('notification')
+          .select('notification_id')
+          .eq('user_id', userId)
+          .eq('is_read', false);
+
+      if (mounted) {
+        setState(() => _unreadCount = (response as List).length);
+      }
+    } catch (_) {
+      // Silently fail — badge just won't show
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final user = Supabase.instance.client.auth.currentUser;
-    final fullName = user?.userMetadata?['full_name'] ?? 
-                     user?.userMetadata?['name'] ?? 
-                     user?.email?.split('@')[0] ?? 
-                     'User';
-
+    final fullName = user?.userMetadata?['full_name'] ??
+        user?.userMetadata?['name'] ??
+        user?.email?.split('@')[0] ??
+        'User';
 
     return Container(
       height: 80.h,
@@ -44,12 +79,13 @@ class Myappbar extends StatelessWidget implements PreferredSizeWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (showBackButton)
+                if (widget.showBackButton)
                   IconButton(
-                    icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 20),
+                    icon: const Icon(Icons.arrow_back_ios,
+                        color: Colors.black, size: 20),
                     onPressed: () => Navigator.pop(context),
                   ),
-                if (showProfile) ...[
+                if (widget.showProfile) ...[
                   CircleAvatar(
                     radius: 24.r,
                     backgroundColor: AppColors.primaryBeig,
@@ -67,9 +103,9 @@ class Myappbar extends StatelessWidget implements PreferredSizeWidget {
                       color: Colors.black,
                     ),
                   ),
-                ] else if (title != null)
+                ] else if (widget.title != null)
                   Text(
-                    title!,
+                    widget.title!,
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontFamily: 'Manrope',
@@ -79,21 +115,56 @@ class Myappbar extends StatelessWidget implements PreferredSizeWidget {
                   ),
               ],
             ),
-            if (actions != null)
-              Row(children: actions!)
+            if (widget.actions != null)
+              Row(children: widget.actions!)
             else
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.notifications),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
+              GestureDetector(
+                onTap: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const NotificationsScreen(),
+                    ),
+                  );
+                  // Refresh badge count when returning from notifications
+                  _fetchUnreadCount();
+                },
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    const Icon(Icons.notifications, size: 28),
+                    if (_unreadCount > 0)
+                      Positioned(
+                        top: -4,
+                        right: -4,
+                        child: Container(
+                          width: 18,
+                          height: 18,
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: AppColors.appbarColor,
+                              width: 1.5,
+                            ),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            _unreadCount > 9 ? '9+' : '$_unreadCount',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
           ],
         ),
       ),
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(80.h);
 }
