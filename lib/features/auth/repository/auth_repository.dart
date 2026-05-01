@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-
 class AuthRepository {
   final supabase = Supabase.instance.client;
 
@@ -27,8 +26,9 @@ class AuthRepository {
     required String password,
     required String fullName,
     required String university,
+    required String role,
   }) async {
-    await supabase.auth.signUp(
+    final response = await supabase.auth.signUp(
       email: email,
       password: password,
       data: {
@@ -36,6 +36,17 @@ class AuthRepository {
         'university': university,
       },
     );
+
+    final user = response.user;
+
+    if (user != null) {
+      await supabase.from('users').insert({
+        'user_id': user.id,
+        'email': email,
+        'full_name': fullName,
+        'role': role,
+      });
+    }
   }
 
   Future<void> logout() async {
@@ -43,28 +54,26 @@ class AuthRepository {
   }
 
   Future<void> signInWithGoogle({required String role}) async {
-  final redirectUrl = kIsWeb
-      ? 'http://localhost:${Uri.base.port}?role=$role'
-      : 'io.supabase.sakina://login-callback/';
-  await supabase.auth.signInWithOAuth(
-    OAuthProvider.google,
-    redirectTo: redirectUrl,
-    authScreenLaunchMode: kIsWeb
-        ? LaunchMode.platformDefault
-        : LaunchMode.externalApplication,
-  );
-}
+    final redirectUrl = kIsWeb
+        ? 'http://localhost:${Uri.base.port}?role=$role'
+        : 'io.supabase.sakina://login-callback/';
+    await supabase.auth.signInWithOAuth(
+      OAuthProvider.google,
+      redirectTo: redirectUrl,
+      authScreenLaunchMode:
+          kIsWeb ? LaunchMode.platformDefault : LaunchMode.externalApplication,
+    );
+  }
 
-Future<void> signInWithMicrosoft({required String role}) async {
-  final redirectUrl = kIsWeb
-      ? 'http://localhost:${Uri.base.port}?role=$role'
-      : 'io.supabase.sakina://login-callback/';
-  await supabase.auth.signInWithOAuth(
-    OAuthProvider.azure,
-    redirectTo: redirectUrl,
-    authScreenLaunchMode: kIsWeb
-        ? LaunchMode.platformDefault
-        : LaunchMode.externalApplication,
-  );
-}
+  Future<void> signInWithMicrosoft({required String role}) async {
+    final redirectUrl = kIsWeb
+        ? 'http://localhost:${Uri.base.port}?role=$role'
+        : 'io.supabase.sakina://login-callback/';
+    await supabase.auth.signInWithOAuth(
+      OAuthProvider.azure,
+      redirectTo: redirectUrl,
+      authScreenLaunchMode:
+          kIsWeb ? LaunchMode.platformDefault : LaunchMode.externalApplication,
+    );
+  }
 }
