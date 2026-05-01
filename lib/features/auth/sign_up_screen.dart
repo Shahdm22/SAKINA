@@ -229,15 +229,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       builder: (context) => CustomAppButton(
                         text: LocaleKeys.signup_title.tr(),
                         onPressed: () {
-                          context.read<AuthBloc>().add(
-                                SignUpRequested(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  fullName: nameController.text,
-                                  university: universityController.text,
-                                  role: widget.role,
-                                ),
-                              );
+                         context.read<AuthBloc>().add(
+                          SignUpRequested(
+                            email: emailController.text,
+                            password: passwordController.text,
+                            fullName: nameController.text,
+                            university: universityController.text,
+                            role: widget.role,
+                          ),
+                        );
                         },
                       ),
                     ),

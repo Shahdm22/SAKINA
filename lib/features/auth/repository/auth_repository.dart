@@ -28,25 +28,15 @@ class AuthRepository {
     required String university,
     required String role,
   }) async {
-    final response = await supabase.auth.signUp(
+    await supabase.auth.signUp(
       email: email,
       password: password,
       data: {
         'full_name': fullName,
         'university': university,
+        'role': role,
       },
     );
-
-    final user = response.user;
-
-    if (user != null) {
-      await supabase.from('users').insert({
-        'user_id': user.id,
-        'email': email,
-        'full_name': fullName,
-        'role': role,
-      });
-    }
   }
 
   Future<void> logout() async {
@@ -60,8 +50,9 @@ class AuthRepository {
     await supabase.auth.signInWithOAuth(
       OAuthProvider.google,
       redirectTo: redirectUrl,
-      authScreenLaunchMode:
-          kIsWeb ? LaunchMode.platformDefault : LaunchMode.externalApplication,
+      authScreenLaunchMode: kIsWeb
+          ? LaunchMode.platformDefault
+          : LaunchMode.externalApplication,
     );
   }
 
@@ -72,8 +63,9 @@ class AuthRepository {
     await supabase.auth.signInWithOAuth(
       OAuthProvider.azure,
       redirectTo: redirectUrl,
-      authScreenLaunchMode:
-          kIsWeb ? LaunchMode.platformDefault : LaunchMode.externalApplication,
+      authScreenLaunchMode: kIsWeb
+          ? LaunchMode.platformDefault
+          : LaunchMode.externalApplication,
     );
   }
 }
