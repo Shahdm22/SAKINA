@@ -22,7 +22,7 @@ class AccountSettingsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.themeColor,
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFBF9F6B2),
+        backgroundColor: const Color(0xfffbf9f6b2),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Color(0xFF2C2416)),

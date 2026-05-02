@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sakina/core/theme/app_colors.dart';
 
 class PreferenceCard extends StatelessWidget {
@@ -18,33 +17,33 @@ class PreferenceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(16.w),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(8.r),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
           children: [
-            Icon(icon, color: AppColors.primaryBrown, size: 20.sp),
-            SizedBox(height: 8.h),
+            Icon(icon, color: AppColors.primaryBrown, size: 20),
+            const SizedBox(height: 8),
             Text(
               label.toUpperCase(),
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: const Color(0xFF4C463C),
-                fontSize: 12.sp,
+              style: const TextStyle(
+                color: Color(0xFF4C463C),
+                fontSize: 11,
                 fontFamily: 'Manrope',
                 fontWeight: FontWeight.w400,
                 letterSpacing: 1.2,
               ),
             ),
-            SizedBox(height: 8.h),
+            const SizedBox(height: 8),
             Text(
               value,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: AppColors.fontColor,
-                fontSize: 16.sp,
+              style: const TextStyle(
+                color: Color(0xFF120A00),
+                fontSize: 15,
                 fontFamily: 'Manrope',
                 fontWeight: FontWeight.w400,
               ),

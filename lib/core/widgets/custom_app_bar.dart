@@ -49,9 +49,7 @@ class _MyappbarState extends State<Myappbar> {
       if (mounted) {
         setState(() => _unreadCount = (response as List).length);
       }
-    } catch (_) {
-      // Silently fail — badge just won't show
-    }
+    } catch (_) {}
   }
 
   @override
@@ -86,25 +84,39 @@ class _MyappbarState extends State<Myappbar> {
                         color: Colors.black, size: 20),
                     onPressed: () => Navigator.pop(context),
                   ),
-                if (widget.showProfile) ...[
-                  CircleAvatar(
-                    radius: 24.r,
-                    backgroundColor: AppColors.primaryBeig,
-                    backgroundImage: const NetworkImage(
-                      'https://thumbs.dreamstime.com/b/avatar-profile-icon-flat-style-female-user-vector-illustration-isolated-background-women-sign-business-concept-321407993.jpg',
+                if (widget.showProfile)
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const UserProfileScreen(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 24.r,
+                          backgroundColor: AppColors.primaryBeig,
+                          backgroundImage: const NetworkImage(
+                            'Picture1.jpg',
+                          ),
+                        ),
+                        SizedBox(width: 10.w),
+                        Text(
+                          fullName,
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontFamily: 'Manrope',
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(width: 10.w),
-                  Text(
-                    fullName,
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      fontFamily: 'Manrope',
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                    ),
-                  ),
-                ] else if (widget.title != null)
+                  )
+                else if (widget.title != null)
                   Text(
                     widget.title!,
                     style: TextStyle(
@@ -127,7 +139,6 @@ class _MyappbarState extends State<Myappbar> {
                       builder: (_) => const NotificationsScreen(),
                     ),
                   );
-                  // Refresh badge count when returning from notifications
                   _fetchUnreadCount();
                 },
                 child: Stack(
