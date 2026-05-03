@@ -7,10 +7,11 @@ import 'package:sakina/features/ai_match/screens/loading_screen.dart';
 import 'package:sakina/features/home/bloc/home_bloc.dart';
 import 'package:sakina/pages/explore.dart';
 import 'package:sakina/pages/favourite.dart';
-import 'package:sakina/pages/messages/conversation_page/messages.dart';
+import 'package:sakina/pages/messages/chat_screen/messages.dart';
 import 'package:sakina/pages/widgets/services_near_you.dart';
 import 'package:sakina/pages/widgets/top_match.dart';
 import 'package:sakina/features/map/screens/map_screen.dart';
+import 'package:sakina/pages/messages/chat_screen/messages.dart';
 
 // ─── Entry point screen ───────────────────────────────────────────────────────
 class HomePage extends StatefulWidget {
@@ -49,22 +50,26 @@ class _HomePageState extends State<HomePage> {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home,
-                  color: activeindex == 0 ? AppColors.themeColor : Colors.white),
+                  color:
+                      activeindex == 0 ? AppColors.themeColor : Colors.white),
               label: "Home",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.explore,
-                  color: activeindex == 1 ? AppColors.themeColor : Colors.white),
+                  color:
+                      activeindex == 1 ? AppColors.themeColor : Colors.white),
               label: "Explore",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite,
-                  color: activeindex == 2 ? AppColors.themeColor : Colors.white),
+                  color:
+                      activeindex == 2 ? AppColors.themeColor : Colors.white),
               label: "Favourites",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.message,
-                  color: activeindex == 3 ? AppColors.themeColor : Colors.white),
+                  color:
+                      activeindex == 3 ? AppColors.themeColor : Colors.white),
               label: "Messages",
             ),
           ],
@@ -96,26 +101,94 @@ class _HomePageState extends State<HomePage> {
 // ─── Search suggestions ───────────────────────────────────────────────────────
 const List<Map<String, dynamic>> _searchSuggestions = [
   // Districts
-  {'label': 'Zamalek', 'subtitle': 'District · Cairo', 'icon': Icons.location_on_outlined},
-  {'label': 'Maadi', 'subtitle': 'District · Cairo', 'icon': Icons.location_on_outlined},
-  {'label': 'Heliopolis', 'subtitle': 'District · Cairo', 'icon': Icons.location_on_outlined},
-  {'label': 'Dokki', 'subtitle': 'District · Giza', 'icon': Icons.location_on_outlined},
-  {'label': 'Agouza', 'subtitle': 'District · Giza', 'icon': Icons.location_on_outlined},
-  {'label': 'Downtown', 'subtitle': 'District · Cairo', 'icon': Icons.location_on_outlined},
-  {'label': 'New Cairo', 'subtitle': 'District · Cairo', 'icon': Icons.location_on_outlined},
-  {'label': 'Nasr City', 'subtitle': 'District · Cairo', 'icon': Icons.location_on_outlined},
-  {'label': 'Mohandessin', 'subtitle': 'District · Giza', 'icon': Icons.location_on_outlined},
-  {'label': 'Shubra', 'subtitle': 'District · Cairo', 'icon': Icons.location_on_outlined},
+  {
+    'label': 'Zamalek',
+    'subtitle': 'District · Cairo',
+    'icon': Icons.location_on_outlined
+  },
+  {
+    'label': 'Maadi',
+    'subtitle': 'District · Cairo',
+    'icon': Icons.location_on_outlined
+  },
+  {
+    'label': 'Heliopolis',
+    'subtitle': 'District · Cairo',
+    'icon': Icons.location_on_outlined
+  },
+  {
+    'label': 'Dokki',
+    'subtitle': 'District · Giza',
+    'icon': Icons.location_on_outlined
+  },
+  {
+    'label': 'Agouza',
+    'subtitle': 'District · Giza',
+    'icon': Icons.location_on_outlined
+  },
+  {
+    'label': 'Downtown',
+    'subtitle': 'District · Cairo',
+    'icon': Icons.location_on_outlined
+  },
+  {
+    'label': 'New Cairo',
+    'subtitle': 'District · Cairo',
+    'icon': Icons.location_on_outlined
+  },
+  {
+    'label': 'Nasr City',
+    'subtitle': 'District · Cairo',
+    'icon': Icons.location_on_outlined
+  },
+  {
+    'label': 'Mohandessin',
+    'subtitle': 'District · Giza',
+    'icon': Icons.location_on_outlined
+  },
+  {
+    'label': 'Shubra',
+    'subtitle': 'District · Cairo',
+    'icon': Icons.location_on_outlined
+  },
   // Universities
-  {'label': 'Cairo University', 'subtitle': 'University · Giza', 'icon': Icons.school_outlined},
-  {'label': 'Ain Shams University', 'subtitle': 'University · Cairo', 'icon': Icons.school_outlined},
-  {'label': 'AUC', 'subtitle': 'University · New Cairo', 'icon': Icons.school_outlined},
-  {'label': 'GUC', 'subtitle': 'University · New Cairo', 'icon': Icons.school_outlined},
-  {'label': 'Helwan University', 'subtitle': 'University · Helwan', 'icon': Icons.school_outlined},
-  {'label': 'Al-Azhar University', 'subtitle': 'University · Cairo', 'icon': Icons.school_outlined},
+  {
+    'label': 'Cairo University',
+    'subtitle': 'University · Giza',
+    'icon': Icons.school_outlined
+  },
+  {
+    'label': 'Ain Shams University',
+    'subtitle': 'University · Cairo',
+    'icon': Icons.school_outlined
+  },
+  {
+    'label': 'AUC',
+    'subtitle': 'University · New Cairo',
+    'icon': Icons.school_outlined
+  },
+  {
+    'label': 'GUC',
+    'subtitle': 'University · New Cairo',
+    'icon': Icons.school_outlined
+  },
+  {
+    'label': 'Helwan University',
+    'subtitle': 'University · Helwan',
+    'icon': Icons.school_outlined
+  },
+  {
+    'label': 'Al-Azhar University',
+    'subtitle': 'University · Cairo',
+    'icon': Icons.school_outlined
+  },
   // Property types
   {'label': 'Studio', 'subtitle': 'Property type', 'icon': Icons.home_outlined},
-  {'label': 'Apartment', 'subtitle': 'Property type', 'icon': Icons.apartment_outlined},
+  {
+    'label': 'Apartment',
+    'subtitle': 'Property type',
+    'icon': Icons.apartment_outlined
+  },
   {'label': 'Room', 'subtitle': 'Property type', 'icon': Icons.bed_outlined},
 ];
 
@@ -137,8 +210,8 @@ class _HomeContentState extends State<_HomeContent> {
   void initState() {
     super.initState();
     _searchFocus.addListener(() {
-      setState(() =>
-          _showSuggestions = _searchFocus.hasFocus && _query.isEmpty);
+      setState(
+          () => _showSuggestions = _searchFocus.hasFocus && _query.isEmpty);
     });
   }
 
@@ -152,8 +225,7 @@ class _HomeContentState extends State<_HomeContent> {
   List<Map<String, dynamic>> get _filtered {
     if (_query.isEmpty) return _searchSuggestions.take(6).toList();
     return _searchSuggestions
-        .where((s) =>
-            s['label'].toLowerCase().contains(_query.toLowerCase()))
+        .where((s) => s['label'].toLowerCase().contains(_query.toLowerCase()))
         .toList();
   }
 
@@ -469,8 +541,7 @@ class _HomeContentState extends State<_HomeContent> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LoadingScreen(),
+                                    builder: (context) => const LoadingScreen(),
                                   ),
                                 );
                               },
@@ -648,8 +719,7 @@ class _HomeContentState extends State<_HomeContent> {
                                             Text('0.8km away',
                                                 style: TextStyle(
                                                     fontSize: 13,
-                                                    color:
-                                                        Color(0xFF888888))),
+                                                    color: Color(0xFF888888))),
                                           ],
                                         ),
                                       ],

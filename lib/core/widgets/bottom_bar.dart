@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sakina/pages/explore.dart';
 import 'package:sakina/pages/favourite.dart';
 import 'package:sakina/pages/home.dart';
-import 'package:sakina/pages/messages/conversation_page/messages.dart';
+import 'package:sakina/pages/messages/chat_screen/messages.dart';
 import 'package:sakina/features/home/bloc/home_bloc.dart';
 
 class ButtomNavBarScreen extends StatefulWidget {
@@ -39,7 +39,7 @@ class _ButtomNavBarScreenState extends State<ButtomNavBarScreen> {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
       // FIX: extendBody بيخلي الـ Screen تفرش ورا الـ NavBar عشان الزوايا المنحنية تظهر صح
-      extendBody: true, 
+      extendBody: true,
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: activeindex,
         onTap: (index) {
@@ -50,7 +50,7 @@ class _ButtomNavBarScreenState extends State<ButtomNavBarScreen> {
       ),
       body: SafeArea(
         // bottom: false عشان الـ SafeArea ما ترفعش الصفحة فوق الـ NavBar
-        bottom: false, 
+        bottom: false,
         child: screens[activeindex],
       ),
     );
@@ -92,7 +92,8 @@ class CustomBottomNavBar extends StatelessWidget {
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home,
-                  color: currentIndex == 0 ? AppColors.themeColor : Colors.grey),
+                  color:
+                      currentIndex == 0 ? AppColors.themeColor : Colors.grey),
               label: "Home",
             ),
             BottomNavigationBarItem(
