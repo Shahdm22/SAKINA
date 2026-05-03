@@ -5,8 +5,7 @@ import 'package:sakina/features/home/bloc/home_bloc.dart';
 import 'package:sakina/pages/explore.dart';
 import 'package:sakina/pages/favourite.dart';
 import 'package:sakina/pages/home.dart';
-import 'package:sakina/pages/messages/conversation_page/messages.dart';
-
+import 'package:sakina/pages/messages/chat_screen/messages.dart';
 
 class ButtomNavBarScreen extends StatefulWidget {
   const ButtomNavBarScreen({super.key});
@@ -26,7 +25,6 @@ class _ButtomNavBarScreenState extends State<ButtomNavBarScreen> {
     const ExplorePage(),
     const FavouritePage(),
     const ConversationsScreen(),
-    
   ];
 
   @override
@@ -62,8 +60,6 @@ class _ButtomNavBarScreenState extends State<ButtomNavBarScreen> {
                 color: activeindex == 0 ? AppColors.themeColor : Colors.white,
               ),
               label: "Home",
-              
-              
             ),
             BottomNavigationBarItem(
               icon: Icon(
@@ -86,8 +82,6 @@ class _ButtomNavBarScreenState extends State<ButtomNavBarScreen> {
               ),
               label: "Messages",
             )
-            
-            
           ],
         ),
       ),
