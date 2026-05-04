@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'add_listing_screen.dart';
 import 'listing_details_screen.dart';
 import 'host_profile_screen.dart';
+import 'package:sakina/landlord/landlord_sidebar.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -15,6 +16,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final supabase = Supabase.instance.client;
   List<Map<String, dynamic>> _listings = [];
   bool _isLoading = true;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -60,6 +62,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // ← أضف ده
+      drawer: const LandlordSidebar(),
       backgroundColor: const Color(0xFFF5EFE6),
       body: SafeArea(
         child: Column(
@@ -69,26 +73,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Row(
                 children: [
-                  Container(
-                    width: 38,
-                    height: 38,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1A0F0A),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: _avatarUrl != null && _avatarUrl!.isNotEmpty
-                          ? Image.network(
-                              _avatarUrl!,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => const Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                  size: 20),
-                            )
-                          : const Icon(Icons.person,
-                              color: Colors.white, size: 20),
+                  GestureDetector(
+                    onTap: () =>
+                        _scaffoldKey.currentState?.openDrawer(), // ← ده المهم
+                    child: Container(
+                      width: 38,
+                      height: 38,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF1A0F0A),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: _avatarUrl != null && _avatarUrl!.isNotEmpty
+                            ? Image.network(
+                                _avatarUrl!,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) => const Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                    size: 20),
+                              )
+                            : const Icon(Icons.person,
+                                color: Colors.white, size: 20),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
